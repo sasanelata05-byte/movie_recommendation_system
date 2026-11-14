@@ -2,3 +2,4 @@ netflix_env/
 data/
 __pycache__/
 .ipynb_checkpoints/
+models/*.pkl

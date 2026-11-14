@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineMatch · Movie Recommender</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">🎬 CineMatch</div>
+      <span class="pill">SVD · Netflix Prize</span>
+    </nav>
+
+    <header class="hero">
+      <h1>Find your next favorite movie</h1>
+      <p>Enter a viewer ID and we'll predict which unseen movies they'd rate highest,
+         learned from 1.7 million real ratings.</p>
+
+      <form id="search-form" class="search" autocomplete="off">
+        <input id="user-input" type="number" min="1" inputmode="numeric"
+               placeholder="Viewer ID, e.g. 1248029" required>
+        <button type="submit" class="btn primary">Recommend</button>
+        <button type="button" id="random-btn" class="btn ghost">🎲 Surprise me</button>
+      </form>
+      <p id="form-error" class="error" hidden></p>
+      <div id="chips" class="chips"></div>
+    </header>
+
+    <section class="stats">
+      <div class="stat"><div class="num" id="stat-users">–</div><div class="label">Viewers in sample</div></div>
+      <div class="stat"><div class="num" id="stat-movies">–</div><div class="label">Movies</div></div>
+      <div class="stat"><div class="num" id="stat-ratings">–</div><div class="label">Ratings learned from</div></div>
+      <div class="stat"><div class="num" id="stat-rmse">–</div><div class="label">Model error (RMSE)</div></div>
+    </section>
+
+    <section id="results" hidden>
+      <div class="results-head">
+        <div>
+          <h2 id="viewer-title">Viewer</h2>
+          <p id="viewer-meta"></p>
+        </div>
+        <p class="legend">Predicted ratings use a 1–5 scale</p>
+      </div>
+
+      <h4 class="sub-title">Their highest-rated movies</h4>
+      <div id="history-list" class="history"></div>
+
+      <h3 class="section-title">Recommended for you</h3>
+      <div id="rec-grid" class="grid"></div>
+    </section>
+
+    <section>
+      <h3 class="section-title">How it works</h3>
+      <div class="steps">
+        <div class="card step"><div class="step-num">1</div><h4>Learn taste</h4>
+          <p>The model finds hidden factors, like how much a viewer leans toward action or drama.</p></div>
+        <div class="card step"><div class="step-num">2</div><h4>Predict</h4>
+          <p>It estimates a rating for every movie the viewer hasn't seen yet.</p></div>
+        <div class="card step"><div class="step-num">3</div><h4>Rank</h4>
+          <p>The highest predictions become the recommendations you see above.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="section-title">How the model compares</h3>
+      <table>
+        <thead>
+          <tr><th>Model</th><th>RMSE ↓</th><th>MAE ↓</th><th>Precision@10 ↑</th><th>Recall@10 ↑</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Baseline</td><td>0.9222</td><td>0.7262</td><td>0.558</td><td>0.785</td></tr>
+          <tr class="best"><td>SVD</td><td>0.9011</td><td>0.7052</td><td>0.565</td><td>0.790</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>Built with Flask and scikit-surprise · Trained on a 20,000-viewer sample</footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
